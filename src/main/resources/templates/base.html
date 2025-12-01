@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head> <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title th:text="${pageTitle} + ' - PPA Procesadora'">PPA Procesadora</title>
+    <!-- Estilos globales -->
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <!-- Estilos específicos de página (se cargan en el th:block) -->
+    <th:block th:insert="${pageStyles}"></th:block> </head>
+<body> <!-- Contenido específico de la página -->
+
+<th:block th:insert="${pageContent}"></th:block> <!-- Scripts globales -->
+
+<script th:src="@{/js/libs/axios.min.js}"></script>
+
+<script th:src="@{/js/util.js}"></script> <!-- Scripts específicos de página -->
+
+<th:block th:insert="${pageScripts}"></th:block>
+
+</body>
+
+</html>

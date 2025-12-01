@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <link rel="stylesheet" th:href="@{/static/css/global.css}">
+    <link rel="stylesheet" th:href="@{/static/css/error.css}">
+</head>
+<body>
+<div class="error-container error-generic">
+    <div class="error-box">
+        <div class="error-code">⚠️</div>
+        <div class="error-title">Algo salió mal</div>
+        <div class="error-message">Ha ocurrido un error inesperado. Por favor, intenta más tarde.</div>
+        <a th:href="@{/dashboard}" class="error-button">Volver al Dashboard</a>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!-- fragments/navbar.html -->
+<div th:fragment="navbar">
+    <div class="navbar">
+        <a class="navbar-brand" th:href="@{/dashboard}">PPA Procesadora</a>
+
+        <div class="navbar-user">
+            <div class="user-info">
+                <div class="username" th:text="${username}">Usuario</div>
+                <div class="role" th:text="${rol}">Rol</div>
+            </div>
+
+            <form method="POST" th:action="@{/logout}" style="display: inline;">
+                <button type="submit" class="logout-btn">Cerrar Sesión</button>
+            </form>
+        </div>
+    </div>
+</div>

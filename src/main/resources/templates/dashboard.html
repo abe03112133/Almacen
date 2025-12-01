@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>PPA Procesadora - Dashboard</title>
+    <link rel="stylesheet" th:href="@{/static/css/global.css}">
+    <link rel="stylesheet" th:href="@{/static/css/dashboard.css}">
+</head>
+<body>
+<th:block th:replace="fragments/navbar :: navbar"></th:block>
+
+<div class="container">
+    <div class="header">
+        <h1>Bienvenido</h1>
+        <p>Sistema de Control de Almacén Dinámico</p>
+    </div>
+
+    <div class="info-text">
+        ℹ️ Estás conectado como <strong th:text="${username}"></strong> con rol <strong th:text="${rol}"></strong>
+    </div>
+
+    <div class="grid">
+        <div class="card" th:if="${T(com.PPA.procesadora.util.Permissions).tienePermiso(rol, 'VER_REPORTES')}">
+            <div class="card-title">Reportes</div>
+            <div class="card-description">Ver reportes de producción e inventario</div>
+            <button class="card-button" data-action="reportes">Ir →</button>
+        </div>
+
+        <div class="card" th:if="${T(com.PPA.procesadora.util.Permissions).tienePermiso(rol, 'GESTIONAR_PRODUCCIONES')}">
+            <div class="card-title">Producciones</div>
+            <div class="card-description">Gestionar ordenes de producción</div>
+            <button class="card-button" data-action="producciones">Ir →</button>
+        </div>
+
+        <div class="card" th:if="${T(com.PPA.procesadora.util.Permissions).tienePermiso(rol, 'GESTIONAR_RACKS')}">
+            <div class="card-title">Almacen</div>
+            <div class="card-description">Manejo de racks, espacios y tarimas</div>
+            <button class="card-button" data-action="racks">Ir →</button>
+        </div>
+
+        <div class="card" th:if="${T(com.PPA.procesadora.util.Permissions).tienePermiso(rol, 'ALMACENAR_TARIMA')}">
+            <div class="card-title">Empaque</div>
+            <div class="card-description">Manejo de acomodo de tarimas nuevas.</div>
+            <button class="card-button" data-action="almacen">Ir →</button>
+        </div>
+
+        <div class="card" th:if="${T(com.PPA.procesadora.util.Permissions).tienePermiso(rol, 'SURTIR_TARIMA')}">
+            <div class="card-title">Surtido</div>
+            <div class="card-description">Gestionar el surtido de tarimas</div>
+            <button class="card-button" data-action="surtido">Ir →</button>
+        </div>
+
+        <div class="card" th:if="${T(com.PPA.procesadora.util.Permissions).tienePermiso(rol, 'GESTIONAR_USUARIOS')}">
+            <div class="card-title">Usuarios</div>
+            <div class="card-description">Gestionar usuarios del sistema</div>
+            <button class="card-button" data-action="usuarios">Ir →</button>
+        </div>
+
+        <div class="card" th:if="${T(com.PPA.procesadora.util.Permissions).tienePermiso(rol, 'GESTIONAR_PRODUCTOS')}">
+            <div class="card-title">Productos</div>
+            <div class="card-description">Gestionar productos del catálogo</div>
+            <button class="card-button" data-action="productos">Ir →</button>
+        </div>
+
+        <div class="card" th:if="${T(com.PPA.procesadora.util.Permissions).tienePermiso(rol, 'GESTIONAR_INSUMOS')}">
+            <div class="card-title">Insumos</div>
+            <div class="card-description">Gestionar insumos y máquinas</div>
+            <button class="card-button" data-action="insumos">Ir →</button>
+        </div>
+    </div>
+
+    <div class="info-text">
+        Sesión activa. Cierre sesión para salir del sistema.
+    </div>
+</div>
+
+<!-- Scripts globales -->
+<script th:src="@{/static/js/dashboard.js}"></script>
+</body>
+</html>
