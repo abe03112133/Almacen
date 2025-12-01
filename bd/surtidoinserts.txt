@@ -1,0 +1,132 @@
+-- ====================================================================
+-- SCRIPT SQL: MÓDULO SURTIDO PEPS
+-- Base de datos: almacen_db
+-- ====================================================================
+
+USE almacen_db;
+
+-- ====================================================================
+-- 1. CREAR TABLA: DESTINO (nuevas ciudades/destinos)
+-- ====================================================================
+
+CREATE TABLE IF NOT EXISTS `destino` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `codigo` VARCHAR(20) COLLATE utf8mb4_unicode_ci NOT NULL UNIQUE,
+  `nombre` VARCHAR(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `activo` TINYINT(1) NOT NULL DEFAULT 1,
+  `observaciones` TEXT COLLATE utf8mb4_unicode_ci,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_destino_codigo` (`codigo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ====================================================================
+-- 2. CREAR TABLA: DETALLE_SURTIDO (detalles por tarima)
+-- ====================================================================
+
+CREATE TABLE IF NOT EXISTS `detalle_surtido` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `surtido_producto_id` INT NOT NULL,
+  `tarima_id` INT NOT NULL,
+  `espacio_id` INT NOT NULL,
+  `cantidad_tarimas` INT NOT NULL DEFAULT 1,
+  `estado` VARCHAR(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'PENDIENTE',
+  `fecha_asignacion` DATETIME(6) NOT NULL,
+  `fecha_ejecucion` DATETIME(6),
+  `observaciones` TEXT COLLATE utf8mb4_unicode_ci,
+  `numero_rack_origen` INT,
+  `nivel_origen` INT,
+  `lado_origen` INT,
+  `posicion_origen` INT,
+  `codigo_qr_origen` VARCHAR(120) COLLATE utf8mb4_unicode_ci,
+  PRIMARY KEY (`id`),
+  KEY `FK_detalle_surtido_producto` (`surtido_producto_id`),
+  KEY `FK_detalle_surtido_tarima` (`tarima_id`),
+  KEY `FK_detalle_surtido_espacio` (`espacio_id`),
+  KEY `IDX_detalle_estado` (`estado`),
+  CONSTRAINT `FK_detalle_surtido_producto` FOREIGN KEY (`surtido_producto_id`)
+    REFERENCES `surtido_producto` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_detalle_surtido_tarima` FOREIGN KEY (`tarima_id`)
+    REFERENCES `tarima` (`id`),
+  CONSTRAINT `FK_detalle_surtido_espacio` FOREIGN KEY (`espacio_id`)
+    REFERENCES `espacio` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ====================================================================
+-- 3. ACTUALIZAR TABLA: SURTIDO_DIARIO
+-- ====================================================================
+
+-- Agregar columnas si no existen
+ALTER TABLE `surtido_diario`
+  ADD COLUMN IF NOT EXISTS `estado` VARCHAR(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'ACTIVO',
+  ADD COLUMN IF NOT EXISTS `descripcion` TEXT COLLATE utf8mb4_unicode_ci,
+  ADD COLUMN IF NOT EXISTS `fecha_creacion` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  ADD COLUMN IF NOT EXISTS `fecha_cierre` DATETIME(6),
+  ADD COLUMN IF NOT EXISTS `usuario_supervisor_id` INT,
+  ADD COLUMN IF NOT EXISTS `activo` TINYINT(1) NOT NULL DEFAULT 1,
+  ADD KEY IF NOT EXISTS `FK_surtido_diario_supervisor` (`usuario_supervisor_id`),
+  ADD CONSTRAINT `FK_surtido_diario_supervisor` FOREIGN KEY (`usuario_supervisor_id`)
+    REFERENCES `usuario` (`id`);
+
+-- ====================================================================
+-- 4. ACTUALIZAR TABLA: SURTIDO_PRODUCTO
+-- ====================================================================
+
+-- Agregar relación a DESTINO y campos nuevos
+ALTER TABLE `surtido_producto`
+  ADD COLUMN IF NOT EXISTS `surtido_diario_id` INT NOT NULL,
+  ADD COLUMN IF NOT EXISTS `destino_id` INT NOT NULL,
+  ADD COLUMN IF NOT EXISTS `cantidad_asignada` INT NOT NULL DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS `cantidad_surtida` INT NOT NULL DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS `estado` VARCHAR(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'ACTIVO',
+  ADD COLUMN IF NOT EXISTS `es_complementario` TINYINT(1) NOT NULL DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS `surtido_producto_original_id` INT,
+  ADD COLUMN IF NOT EXISTS `fecha_creacion` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  ADD COLUMN IF NOT EXISTS `fecha_edicion` DATETIME(6),
+  ADD COLUMN IF NOT EXISTS `fecha_generacion_picklist` DATETIME(6),
+  ADD COLUMN IF NOT EXISTS `observaciones` TEXT COLLATE utf8mb4_unicode_ci,
+  ADD KEY IF NOT EXISTS `FK_surtido_producto_diario` (`surtido_diario_id`),
+  ADD KEY IF NOT EXISTS `FK_surtido_producto_destino` (`destino_id`),
+  ADD KEY IF NOT EXISTS `FK_surtido_producto_original` (`surtido_producto_original_id`),
+  ADD KEY IF NOT EXISTS `IDX_surtido_producto_estado` (`estado`),
+  ADD CONSTRAINT `FK_surtido_producto_diario` FOREIGN KEY (`surtido_diario_id`)
+    REFERENCES `surtido_diario` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_surtido_producto_destino` FOREIGN KEY (`destino_id`)
+    REFERENCES `destino` (`id`),
+  ADD CONSTRAINT `FK_surtido_producto_original` FOREIGN KEY (`surtido_producto_original_id`)
+    REFERENCES `surtido_producto` (`id`);
+
+-- NOTA: Si la columna 'cantidad' ya existe y quieres renombrarla a cantidad_solicitada:
+-- ALTER TABLE `surtido_producto` CHANGE COLUMN `cantidad` `cantidad_solicitada` INT NOT NULL;
+
+-- ====================================================================
+-- 5. INSERTS: DESTINOS INICIALES
+-- ====================================================================
+
+INSERT IGNORE INTO `destino` (`codigo`, `nombre`, `activo`) VALUES
+('MTY', 'Monterrey', 1),
+('GDL', 'Guadalajara', 1),
+('CJS', 'Ciudad Juárez', 1),
+('MEX', 'Ciudad de México', 1),
+('PUE', 'Puebla', 1),
+('QRO', 'Querétaro', 1),
+('VER', 'Veracruz', 1),
+('TIJ', 'Tijuana', 1),
+('CHI', 'Chihuahua', 1),
+('SLP', 'San Luis Potosí', 1);
+
+-- ====================================================================
+-- 6. ÍNDICES PARA OPTIMIZACIÓN
+-- ====================================================================
+
+-- Índice en fecha_ocupacion para PEPS
+ALTER TABLE `espacio` ADD KEY IF NOT EXISTS `IDX_espacio_fecha_ocupacion` (`fecha_ocupacion`);
+
+-- Índice en estado de tarima (si existe)
+-- ALTER TABLE `tarima` ADD KEY IF NOT EXISTS `IDX_tarima_estado` (`estado`);
+
+-- Índice en estado_producto
+ALTER TABLE `estado_producto` ADD KEY IF NOT EXISTS `IDX_estado_producto_codigo` (`codigo`);
+
+-- ====================================================================
+-- FIN DEL SCRIPT
+-- ====================================================================
