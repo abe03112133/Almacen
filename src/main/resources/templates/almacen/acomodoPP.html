@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Scanner Tarimas - PPA Procesadora</title>
+    <link rel="stylesheet" th:href="@{/static/css/global.css}">
+    <link rel="stylesheet" th:href="@{/static/css/scanner.css}">
+</head>
+<body>
+<th:block th:replace="fragments/navbar :: navbar"></th:block>
+
+<div class="container">
+    <div class="header">
+        <p>Escanea cajas, máquinas o pre-tarimas</p>
+    </div>
+
+    <!-- Producción Activa -->
+    <div class="produccion-activa-section" id="produccionActivaSection" style="display: none;">
+        <h2>📦 Producción Activa</h2>
+        <div class="produccion-info">
+            <div class="info-item">
+                <strong>Producto:</strong>
+                <span id="productoActivo" class="codigo-mono">-</span>
+            </div>
+            <div class="info-item">
+                <strong>Código ProduccionAlm:</strong>
+                <span id="codigoProduccionAlm" class="codigo-mono">-</span>
+            </div>
+            <div class="info-item">
+                <strong>Tarimas:</strong>
+                <span id="numeroTarimas">T001</span>
+            </div>
+            <div class="info-item">
+                <strong>Hora Inicio:</strong>
+                <span id="horaInicio">-</span>
+            </div>
+        </div>
+        <button class="btn-confirmar-produccion" onclick="confirmarProduccionActiva()" id="btnConfirmarProduccion">
+            ✓ Confirmar Producción
+        </button>
+    </div>
+
+    <!-- Campo de escaneo principal -->
+    <div class="scanner-section">
+        <!-- Selector de estado de producto -->
+        <div class="estado-producto-selector">
+            <label for="estadoProductoSelect">Estado del Producto:</label>
+            <select id="estadoProductoSelect" class="estado-select">
+                <option value="">Cargando...</option>
+            </select>
+        </div>
+
+        <div class="scanner-input-wrapper">
+            <input
+                    type="text"
+                    id="codigoEscaneado"
+                    class="scanner-input"
+                    placeholder="Escanea aquí..."
+                    autofocus
+                    autocomplete="off"
+            >
+        </div>
+
+        <div class="message error" id="errorMsg"></div>
+        <div class="message warning" id="warningMsg"></div>
+        <div class="message success" id="successMsg"></div>
+        <div class="message info" id="infoMsg"></div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p id="loadingText">Procesando...</p>
+        </div>
+    </div>
+
+    <!-- Estado actual -->
+    <div class="estado-section" id="estadoSection" style="display: none;">
+        <h2>Estado Actual</h2>
+        <div class="estado-info">
+            <div class="info-item">
+                <strong>Tipo:</strong>
+                <span id="tipoEscaneado">-</span>
+            </div>
+            <div class="info-item">
+                <strong>Código:</strong>
+                <span id="codigoInfo" class="codigo-mono">-</span>
+            </div>
+            <div class="info-item">
+                <strong>Producto:</strong>
+                <span id="productoInfo">-</span>
+            </div>
+            <div class="info-item">
+                <strong>Estado:</strong>
+                <span id="estadoInfo">-</span>
+            </div>
+        </div>

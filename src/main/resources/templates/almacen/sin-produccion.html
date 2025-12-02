@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Sin Producción Activa - PPA Procesadora</title>
+    <link rel="stylesheet" th:href="@{/static/css/global.css}">
+    <style>
+        .sin-produccion-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 80px);
+            padding: 2rem;
+        }
+
+        .sin-produccion-content {
+            text-align: center;
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            max-width: 500px;
+        }
+
+        .sin-produccion-icon {
+            font-size: 80px;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .sin-produccion-content h1 {
+            font-size: 28px;
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+        }
+
+        .sin-produccion-content p {
+            color: var(--color-text-muted);
+            font-size: 16px;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .estado-info {
+            background: var(--color-light);
+            padding: 1.5rem;
+            border-radius: 6px;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--color-primary);
+        }
+
+        .estado-info strong {
+            display: block;
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .estado-info span {
+            color: var(--color-text);
+            font-size: 14px;
+        }
+
+        .acciones {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .btn-accion {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .btn-accion.principal {
+            background-color: var(--color-primary);
+            color: white;
+        }
+
+        .btn-accion.principal:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-accion.secundario {
+            background-color: var(--color-border);
+            color: var(--color-text);
+        }
+
+        .btn-accion.secundario:hover {
+            background-color: #d0d0d0;
+        }
+
+        .info-mensaje {
+            background: #f0f7ff;
+            border-left: 4px solid #2196F3;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 2rem;
+            font-size: 13px;
+            color: #01579b;
+        }
+
+        .info-mensaje strong {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+<th:block th:replace="fragments/navbar :: navbar"></th:block>
+
+<div class="sin-produccion-container">
+    <div class="sin-produccion-content">
+        <div class="sin-produccion-icon">⏸️</div>
+        <h1>Sin Producción Activa</h1>
+        <p>No hay una producción activa en este momento. El módulo de acomodo está deshabilitado.</p>
+
+        <div class="estado-info">
+            <strong>Estado del Sistema:</strong>
+            <span>Esperando que se habilite una producción</span>
+        </div>
+
+        <div class="acciones">
+            <button class="btn-accion principal" onclick="recargar()">
+                🔄 Recargar
+            </button>
+        </div>
+
+        <div class="info-mensaje">
+            <strong>Información:</strong>
+            <p>Contacta al administrador si necesitas habilitar una producción. Este módulo se habilitará automáticamente cuando exista una producción activa.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function recargar() {
+        location.reload();
+    }
+
+    // Recargar automáticamente cada 30 segundos
+    setInterval(() => {
+        location.reload();
+    }, 30000);
+</script>
+
+</body>
+</html>

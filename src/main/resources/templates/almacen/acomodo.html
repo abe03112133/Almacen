@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Scanner Tarimas - PPA Procesadora</title>
+    <link rel="stylesheet" th:href="@{/static/css/global.css}">
+    <link rel="stylesheet" th:href="@{/static/css/scanner.css}">
+</head>
+<body>
+<th:block th:replace="fragments/navbar :: navbar"></th:block>
+
+<div class="container">
+    <div class="header">
+        <p>Escanea cajas, máquinas o pre-tarimas</p>
+    </div>
+
+    <!-- Producción Activa - Acordeón -->
+    <div class="produccion-activa-section" id="produccionActivaSection" style="display: none;">
+        <button class="btn-produccion-toggle" onclick="toggleProduccionInfo()" id="btnToggle">
+            ▼ Ver Producción Activa
+        </button>
+
+        <div class="produccion-info" id="produccionInfo" style="display: none;">
+            <div class="info-item">
+                <strong>Producto:</strong>
+                <span id="productoActivo" class="codigo-mono">-</span>
+            </div>
+            <div class="info-item">
+                <strong>Código:</strong>
+                <span id="codigoProduccionAlm" class="codigo-mono">-</span>
+            </div>
+            <button class="btn-confirmar-produccion" onclick="confirmarProduccionActiva()" id="btnConfirmarProduccion">
+                ✓ Confirmar
+            </button>
+        </div>
+    </div>
+
+    <!-- Campo de escaneo principal -->
+    <div class="scanner-section">
+        <!-- Selector de estado de producto -->
+        <div class="estado-producto-selector">
+            <label for="estadoProductoSelect">Estado del Producto:</label>
+            <select id="estadoProductoSelect" class="estado-select">
+                <option value="">Cargando...</option>
+            </select>
+        </div>
+
+        <div class="scanner-input-wrapper">
+            <input
+                    type="text"
+                    id="codigoEscaneado"
+                    class="scanner-input"
+                    placeholder="Escanea aquí..."
+                    autofocus
+                    autocomplete="off"
+            >
+        </div>
+
+        <div class="message error" id="errorMsg"></div>
+        <div class="message warning" id="warningMsg"></div>
+        <div class="message success" id="successMsg"></div>
+        <div class="message info" id="infoMsg"></div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p id="loadingText">Procesando...</p>
+        </div>
+    </div>
+
+    <!-- Estado actual -->
+    <div class="estado-section" id="estadoSection" style="display: none;">
+        <h2>Estado Actual</h2>
+        <div class="estado-info">
+            <div class="info-item">
+                <strong>Tipo:</strong>
+                <span id="tipoEscaneado">-</span>
+            </div>
+            <div class="info-item">
+                <strong>Código:</strong>
+                <span id="codigoInfo" class="codigo-mono">-</span>
+            </div>
+            <div class="info-item">
+                <strong>Producto:</strong>
+                <span id="productoInfo">-</span>
+            </div>
+            <div class="info-item">
+                <strong>Estado:</strong>
+                <span id="estadoInfo">-</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal bloqueante para guardar en slot -->
+    <div class="modal-overlay" id="modalSlot">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📍 Guardar Tarima en Slot</h2>
+                <button class="btn-close" onclick="cancelarGuardado()">✕</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="info-message">
+                    <strong>Instrucciones:</strong>
+                    <p>Se creará una tarima. Escanea el código QR del rack donde deseas guardarla.</p>
+                </div>
+
+                <div class="pretarima-info">
+                    <div class="info-item">
+                        <strong>Pre-Tarima:</strong>
+                        <span id="preTarimaCode" class="codigo-mono">-</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Producto:</strong>
+                        <span id="preTarimaProducto">-</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Cajas:</strong>
+                        <span id="preTarimaCajas">-</span>
+                    </div>
+                </div>
+
+                <div class="slot-input-wrapper">
+                    <input
+                            type="text"
+                            id="codigoSlot"
+                            class="scanner-input"
+                            placeholder="Escanea código QR del rack..."
+                            autocomplete="off"
+                    >
+                </div>
+
+                <div class="message error" id="errorModalMsg"></div>
+                <div class="message warning" id="warningModalMsg"></div>
+
+                <div class="loading" id="loadingModal">
+                    <div class="spinner"></div>
+                    <p>Guardando tarima...</p>
+                </div>
+
+                <div class="resultado-modal" id="resultadoModal">
+                    <h3>✓ Tarima Guardada</h3>
+                    <div class="info-item">
+                        <strong>Ubicación:</strong>
+                        <span id="ubicacionInfo"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-action btn-cancel" onclick="cancelarGuardado()" id="btnCancelar">
+                    Cancelar
+                </button>
+                <button class="btn-action" id="btnNuevaEscaneada" style="display: none;" onclick="limpiarModalYVolver()">
+                    Nueva Escaneo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Info de ayuda -->
+    <div class="info-box">
+        <h3>ℹ️ Información de Códigos</h3>
+        <ul id="infoBoxContent" style="display: none;">
+            <li><strong>Caja:</strong> Formato <code>0XXXXXX251125</code> (el scanner elimina asteriscos) → Crea pre-tarima + PDF</li>
+            <li><strong>Pre-Tarima:</strong> Formato <code>T001-PBG1-251125</code> → Abre modal para guardar</li>
+            <li><strong>Máquina:</strong> Formato <code>M-XXXX</code> → Registra consumo de insumo</li>
+            <li><strong>Slot:</strong> Formato <code>+C1PACON300131</code> o <code>PACON300131</code> → Disponible en modal (ambos formatos)</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Modal de consumo de insumo -->
+<div class="modal-overlay" id="modalConsumoInsumo">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>📦 Registrar Consumo de Insumo</h2>
+            <button class="btn-close" onclick="cancelarConsumoInsumo()">✕</button>
+        </div>
+
+        <div class="modal-body">
+            <div class="info-message">
+                <strong>Máquina Escaneada:</strong>
+                <p id="maquinaEscaneada" class="codigo-mono">-</p>
+            </div>
+
+            <div class="consumo-info">
+                <div class="info-item">
+                    <strong>Máquina:</strong>
+                    <span id="consumoMaquinaNombre">-</span>
+                </div>
+                <div class="info-item">
+                    <strong>Insumo a Registrar:</strong>
+                    <span id="consumoInsumoNombre" class="codigo-mono">-</span>
+                </div>
+            </div>
+
+            <div class="mensaje-confirmacion">
+                <p>¿Deseas registrar el consumo de este insumo?</p>
+            </div>
+
+            <div class="message error" id="errorConsumoMsg"></div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-action btn-cancel" onclick="cancelarConsumoInsumo()">
+                No, Cancelar
+            </button>
+            <button class="btn-action btn-success" onclick="confirmarConsumoInsumo()">
+                Sí, Registrar
+            </button>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/static/js/acomodo.js}"></script>
+
+</body>
+</html>
