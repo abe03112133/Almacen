@@ -1,0 +1,243 @@
+
+
+.usuarios-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.usuarios-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.usuarios-header h1 {
+    font-size: 28px;
+    margin: 0;
+}
+
+.btn-crear {
+    background-color: #1a1a1a;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-crear:hover {
+    background-color: #333;
+}
+
+.alert {
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.alert-success {
+    background-color: #efe;
+    border: 1px solid #9f9;
+    color: #2a8a2a;
+}
+
+.alert-error {
+    background-color: #fee;
+    border: 1px solid #f99;
+    color: #c33;
+}
+
+.tabla-usuarios {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.tabla-usuarios th {
+    background-color: #f5f1e8;
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid #d4c9bb;
+}
+
+.tabla-usuarios td {
+    padding: 15px;
+    border-bottom: 1px solid #f0ede5;
+}
+
+.tabla-usuarios tr:hover {
+    background-color: #fafaf8;
+}
+
+.rol-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    background-color: #e8dcc8;
+    color: #1a1a1a;
+}
+
+.estado-activo {
+    color: #2a8a2a;
+    font-weight: 600;
+}
+
+.estado-inactivo {
+    color: #c33;
+    font-weight: 600;
+}
+
+.acciones {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-editar,
+.btn-password,
+.btn-desactivar {
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-editar {
+    background-color: #e8dcc8;
+    color: #1a1a1a;
+}
+
+.btn-editar:hover {
+    background-color: #d4c9bb;
+}
+
+.btn-password {
+    background-color: #1a1a1a;
+    color: white;
+}
+
+.btn-password:hover {
+    background-color: #333;
+}
+
+.btn-desactivar {
+    background-color: #fee;
+    color: #c33;
+    border: 1px solid #f99;
+}
+
+.btn-desactivar:hover {
+    background-color: #f0cccc;
+}
+
+/* Formulario */
+.form-container {
+    max-width: 500px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d4c9bb;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #1a1a1a;
+    box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.1);
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.btn-submit {
+    background-color: #1a1a1a;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-submit:hover {
+    background-color: #333;
+}
+
+.btn-cancelar {
+    background-color: #e8dcc8;
+    color: #1a1a1a;
+    padding: 12px 30px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-cancelar:hover {
+    background-color: #d4c9bb;
+}
+
+@media (max-width: 768px) {
+    .usuarios-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .tabla-usuarios {
+        font-size: 14px;
+    }
+
+    .tabla-usuarios th,
+    .tabla-usuarios td {
+        padding: 10px;
+    }
+
+    .acciones {
+        flex-direction: column;
+    }
+
+    .form-container {
+        margin: 20px;
+    }
+}

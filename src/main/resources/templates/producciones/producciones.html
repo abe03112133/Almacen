@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Gestión de Producciones - PPA Procesadora</title>
+    <link rel="stylesheet" th:href="@{/static/css/global.css}">
+    <link rel="stylesheet" th:href="@{/static/css/producciones.css}">
+</head>
+<body>
+<th:block th:replace="fragments/navbar :: navbar"></th:block>
+
+<div class="container">
+    <div class="header">
+        <h1>Gestión de Producciones</h1>
+        <p>Crear y gestionar órdenes de producción</p>
+    </div>
+
+    <!-- Barra de acciones -->
+    <div class="actions-bar">
+        <button class="btn-primary" id="btnNuevaProduccion">+ Nueva Producción</button>
+    </div>
+
+    <!-- Tabla de producciones -->
+    <div class="table-container">
+        <table id="produccionesTable">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Detalles de Empaque</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody id="produccionesTableBody">
+            <tr>
+                <td colspan="5" class="text-center">Cargando producciones...</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Mensaje cuando no hay producciones -->
+    <div id="emptyState" class="empty-state hidden">
+        <p>No hay producciones registradas</p>
+        <button class="btn-primary" id="btnNuevaProduccionEmpty">+ Nueva Producción</button>
+    </div>
+</div>
+
+<!-- Modal de Detalles de ProduccionAlm -->
+<div id="modalDetalles" class="modal hidden">
+    <div class="modal-content modal-detalles">
+        <div class="modal-header">
+            <h2>Detalles de Almacén - Producción <span id="detallesProduccionId"></span></h2>
+            <button class="btn-close" id="btnCerrarDetalles">&times;</button>
+        </div>
+
+        <div class="toolbar">
+            <button class="btn-primary" id="btnAgregarAlm">+ Agregar Almacén</button>
+        </div>
+
+        <div class="table-container">
+            <table id="detallesTable">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Código</th>
+                    <th>Producto</th>
+                    <th>Hora Inicio</th>
+                    <th>Hora Fin</th>
+                    <th>Cajas Iniciales</th>
+                    <th>Cajas Finales</th>
+                    <th>Estatus</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody id="detallesTableBody">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn-secondary" id="btnCerrarDetallesBtn">Cerrar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Agregar/Editar ProduccionAlm -->
+<div id="modalAlm" class="modal hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="almTitle">Nuevo Almacén</h2>
+            <button class="btn-close" id="btnCerrarAlm">&times;</button>
+        </div>
+
+        <form id="formularioAlm" class="form-alm">
+            <input type="hidden" id="almId">
+            <input type="hidden" id="almProduccionId">
+
+            <div class="form-group">
+                <label for="almProducto">Producto *</label>
+                <select id="almProducto" name="productoId">
+                    <option value="">Seleccionar producto...</option>
+                </select>
+                <span class="error-message" id="errorAlmProducto"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="almCajasIniciales">Cajas Iniciales</label>
+                <input type="number" id="almCajasIniciales" name="cajasIniciales" min="0" value="0">
+            </div>
+
+            <div id="formTerminar" style="display: none;">
+                <div class="form-group">
+                    <label for="almHoraFin">Hora Fin</label>
+                    <input type="datetime-local" id="almHoraFin" name="horaFin">
+                </div>
+
+                <div class="form-group">
+                    <label for="almCajasFinales">Cajas Finales</label>
+                    <input type="number" id="almCajasFinales" name="cajasFinales" min="0" value="0">
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn-secondary" id="btnCancelarAlm">Cancelar</button>
+                <button type="submit" class="btn-primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Tabla de producciones inactivas -->
+<div class="container">
+    <div class="header">
+        <h2>Producciones Inactivas (Últimas 10)</h2>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Fecha</th>
+                <th>Acción</th>
+            </tr>
+            </thead>
+            <tbody id="inactivasTableBody">
+            <tr>
+                <td colspan="3" class="text-center">Cargando...</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal de confirmación -->
+<div id="modalConfirmar" class="modal hidden">
+    <div class="modal-content modal-confirm">
+        <h2>Confirmar eliminación</h2>
+        <p id="confirmMessage">¿Está seguro?</p>
+        <div class="modal-actions">
+            <button class="btn-secondary" id="btnCancelarConfirm">Cancelar</button>
+            <button class="btn-danger" id="btnConfirmarDelete">Eliminar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Notificaciones -->
+<div id="notification" class="notification hidden"></div>
+
+<!-- Scripts -->
+<script th:src="@{/static/js/util.js}"></script>
+<script th:src="@{/static/js/producciones.js}"></script>
+</body>
+</html>

@@ -1,0 +1,363 @@
+/* Contenedor principal */
+.insumos-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* Secciones */
+.insumos-section,
+.maquinas-section {
+    background: white;
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 40px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Headers de sección */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--color-secondary);
+}
+
+.section-header h2 {
+    font-size: 24px;
+    color: var(--color-primary);
+    margin: 0;
+}
+
+/* Botones */
+.btn-crear {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-crear:hover {
+    background-color: #2a2a2a;
+    transform: translateY(-2px);
+}
+
+.btn-editar {
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-editar:hover {
+    background-color: #d4c9bb;
+    transform: translateY(-1px);
+}
+
+.btn-eliminar {
+    background-color: #f5e8e8;
+    color: var(--color-error);
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 8px;
+}
+
+.btn-eliminar:hover {
+    background-color: #ead5d5;
+    transform: translateY(-1px);
+}
+
+/* Tablas */
+.tabla-insumos,
+.tabla-maquinas {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabla-insumos thead,
+.tabla-maquinas thead {
+    background-color: var(--color-light);
+    border-bottom: 2px solid var(--color-border);
+}
+
+.tabla-insumos th,
+.tabla-maquinas th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+.tabla-insumos td,
+.tabla-maquinas td {
+    padding: 15px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.tabla-insumos tbody tr,
+.tabla-maquinas tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+.tabla-insumos tbody tr:hover,
+.tabla-maquinas tbody tr:hover {
+    background-color: var(--color-lighter);
+}
+
+/* Acciones */
+.acciones {
+    display: flex;
+    gap: 8px;
+}
+
+/* Estados */
+.estado-activo {
+    background-color: #efe;
+    color: var(--color-success);
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.estado-inactivo {
+    background-color: #fee;
+    color: var(--color-error);
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+/* Estado vacío */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--color-text-light);
+}
+
+.empty-state p {
+    font-size: 16px;
+    margin: 0;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 20px;
+    color: var(--color-primary);
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-close:hover {
+    color: var(--color-primary);
+}
+
+/* Formulario */
+form {
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--color-primary);
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.1);
+}
+
+.form-group textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.form-group input[type="checkbox"] {
+    width: auto;
+    margin-right: 8px;
+}
+
+/* Modal Footer */
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 20px;
+    border-top: 1px solid var(--color-border);
+}
+
+.btn-cancelar {
+    background-color: var(--color-light);
+    color: var(--color-primary);
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-cancelar:hover {
+    background-color: var(--color-border);
+}
+
+.btn-guardar {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-guardar:hover {
+    background-color: #2a2a2a;
+    transform: translateY(-1px);
+}
+
+/* Alertas */
+.alert {
+    padding: 12px 16px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.alert-success {
+    background-color: var(--color-success-bg);
+    color: var(--color-success);
+    border-left: 4px solid var(--color-success);
+}
+
+.alert-error {
+    background-color: var(--color-error-bg);
+    color: var(--color-error);
+    border-left: 4px solid var(--color-error);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .insumos-container {
+        padding: 20px 15px;
+    }
+
+    .insumos-section,
+    .maquinas-section {
+        padding: 20px;
+    }
+
+    .section-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .btn-crear {
+        width: 100%;
+        text-align: center;
+    }
+
+    .tabla-insumos,
+    .tabla-maquinas {
+        font-size: 13px;
+    }
+
+    .tabla-insumos th,
+    .tabla-insumos td,
+    .tabla-maquinas th,
+    .tabla-maquinas td {
+        padding: 10px;
+    }
+
+    .acciones {
+        flex-direction: column;
+    }
+
+    .btn-editar,
+    .btn-eliminar {
+        width: 100%;
+        margin-left: 0;
+    }
+}

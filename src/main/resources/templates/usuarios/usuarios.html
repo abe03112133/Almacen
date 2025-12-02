@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>PPA - Usuarios</title>
+    <link rel="stylesheet" th:href="@{/static/css/global.css}">
+    <link rel="stylesheet" th:href="@{/static/css/usuarios.css}">
+</head>
+<body>
+<th:block th:replace="fragments/navbar :: navbar"></th:block>
+
+
+<div class="usuarios-container">
+    <div class="usuarios-header">
+        <h1>Gestión de Usuarios</h1>
+        <a href="usuarios/nuevo" class="btn-crear">+ Crear Usuario</a>
+    </div>
+
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+    <div th:if="${#lists.isEmpty(usuarios)}" style="text-align: center; padding: 40px;">
+        <p>No hay usuarios registrados</p>
+    </div>
+
+    <table th:if="${!#lists.isEmpty(usuarios)}" class="tabla-usuarios">
+        <thead>
+        <tr>
+            <th>Usuario</th>
+            <th>Nombre Completo</th>
+            <th>Rol</th>
+            <th>Estado</th>
+            <th>Fecha Ingreso</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="usuario : ${usuarios}">
+            <td th:text="${usuario.getUsername()}"></td>
+            <td th:text="${usuario.getNombreCompleto()}"></td>
+            <td>
+                <span class="rol-badge" th:text="${usuario.getRolTipo()}"></span>
+            </td>
+            <td>
+                <span th:class="${usuario.getActivo() ? 'estado-activo' : 'estado-inactivo'}"
+                      th:text="${usuario.getActivo() ? 'Activo' : 'Inactivo'}"></span>
+            </td>
+            <td th:text="${usuario.getFechaIngreso()}"></td>
+            <td>
+                <div class="acciones">
+                    <a th:href="@{/usuarios/{id}/editar(id=${usuario.getId()})}" class="btn-editar">
+                        Editar
+                    </a>
+                    <a th:href="@{/usuarios/{id}/cambiar-password(id=${usuario.getId()})}" class="btn-password">
+                        Password
+                    </a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script th:src="@{/static/js/util.js}"></script>
+</body>
+</html>

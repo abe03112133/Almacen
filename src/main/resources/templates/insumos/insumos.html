@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>PPA - Insumos y Máquinas</title>
+    <link rel="stylesheet" th:href="@{/static/css/global.css}">
+    <link rel="stylesheet" th:href="@{/static/css/insumos.css}">
+</head>
+<body>
+<th:block th:replace="fragments/navbar :: navbar"></th:block>
+
+<div class="insumos-container">
+    <!-- SECCIÓN INSUMOS -->
+    <div class="insumos-section">
+        <div class="section-header">
+            <h2>Insumos</h2>
+            <button class="btn-crear" onclick="abrirFormularioInsumo()">+ Crear Insumo</button>
+        </div>
+
+        <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+        <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+        <div th:if="${#lists.isEmpty(insumos)}" class="empty-state">
+            <p>No hay insumos registrados</p>
+        </div>
+
+        <table th:if="${!#lists.isEmpty(insumos)}" class="tabla-insumos">
+            <thead>
+            <tr>
+                <th>Código</th>
+                <th>Descripción</th>
+                <th>Máquinas Asociadas</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="insumo : ${insumos}">
+                <td th:text="${insumo.getCodigo()}"></td>
+                <td th:text="${insumo.getDescripcion()}"></td>
+                <td>
+                    <span th:if="${insumo.getMaquinas() != null && insumo.getMaquinas().size() > 0}">
+                        <span th:text="${insumo.getMaquinas().size()} + ' máquina(s)'"></span>
+                    </span>
+                    <span th:if="${insumo.getMaquinas() == null || insumo.getMaquinas().size() == 0}">
+                        Ninguna
+                    </span>
+                </td>
+                <td>
+                    <div class="acciones">
+                        <button class="btn-editar" th:onclick="'abrirFormularioInsumo(' + ${insumo.getId()} + ')'">
+                            Editar
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- SECCIÓN MÁQUINAS -->
+    <div class="maquinas-section">
+        <div class="section-header">
+            <h2>Máquinas</h2>
+            <button class="btn-crear" onclick="abrirFormularioMaquina()">+ Crear Máquina</button>
+        </div>
+
+        <div th:if="${#lists.isEmpty(maquinas)}" class="empty-state">
+            <p>No hay máquinas registradas</p>
+        </div>
+
+        <table th:if="${!#lists.isEmpty(maquinas)}" class="tabla-maquinas">
+            <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Insumo Asignado</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="maquina : ${maquinas}">
+                <td th:text="${maquina.getCodigo()}"></td>
+                <td th:text="${maquina.getNombre()}"></td>
+                <td th:text="${maquina.getInsumo() != null ? maquina.getInsumo().getCodigo() : 'Sin asignar'}"></td>
+                <td>
+                    <span th:class="${maquina.getActivo() ? 'estado-activo' : 'estado-inactivo'}"
+                          th:text="${maquina.getActivo() ? 'Activa' : 'Inactiva'}"></span>
+                </td>
+                <td>
+                    <div class="acciones">
+                        <button class="btn-editar" th:onclick="'abrirFormularioMaquina(' + ${maquina.getId()} + ')'">
+                            Editar
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal Insumo -->
+<div class="modal" id="modalInsumo">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modalInsumoTitle">Crear Insumo</h2>
+            <button class="btn-close" onclick="cerrarModalInsumo()">✕</button>
+        </div>
+        <form id="formInsumo" method="POST">
+            <div class="form-group">
+                <label for="insumoCodigo">Código</label>
+                <input type="text" id="insumoCodigo" name="codigo" required>
+            </div>
+            <div class="form-group">
+                <label for="insumoDescripcion">Descripción</label>
+                <textarea id="insumoDescripcion" name="descripcion" required></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-cancelar" onclick="cerrarModalInsumo()">Cancelar</button>
+                <button type="submit" class="btn-guardar">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Máquina -->
+<div class="modal" id="modalMaquina">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modalMaquinaTitle">Crear Máquina</h2>
+            <button class="btn-close" onclick="cerrarModalMaquina()">✕</button>
+        </div>
+        <form id="formMaquina" method="POST">
+            <div class="form-group">
+                <label for="maquinaCodigo">Código (se agregará prefijo M-)</label>
+                <input type="text" id="maquinaCodigo" name="codigoSinPrefijo" placeholder="ej: C300" required>
+            </div>
+            <div class="form-group">
+                <label for="maquinaNombre">Nombre</label>
+                <input type="text" id="maquinaNombre" name="nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="maquinaInsumo">Insumo Asignado</label>
+                <select id="maquinaInsumo" name="insumo_id" required>
+                    <option value="">Seleccionar insumo...</option>
+                    <option th:each="insumo : ${insumos}" th:value="${insumo.getId()}" th:text="${insumo.getCodigo()}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="maquinaActivo">
+                    <input type="checkbox" id="maquinaActivo" name="activo" checked>
+                    Activo
+                </label>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-cancelar" onclick="cerrarModalMaquina()">Cancelar</button>
+                <button type="submit" class="btn-guardar">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script th:src="@{/static/js/insumos.js}"></script>
+</body>
+</html>

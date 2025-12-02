@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Gestión de Productos - PPA Procesadora</title>
+    <link rel="stylesheet" th:href="@{/static/css/global.css}">
+    <link rel="stylesheet" th:href="@{/static/css/productos.css}">
+</head>
+<body>
+<th:block th:replace="fragments/navbar :: navbar"></th:block>
+
+<div class="container">
+    <div class="header">
+        <h1>Gestión de Productos</h1>
+        <p>Crear, editar y eliminar productos del catálogo</p>
+    </div>
+
+    <!-- Barra de búsqueda y botón crear -->
+    <div class="actions-bar">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Buscar por nombre o código...">
+            <button class="btn-search" id="btnBuscar">🔍 Buscar</button>
+            <button class="btn-search" id="btnLimpiar">✕</button>
+        </div>
+        <button class="btn-primary" id="btnNuevoProducto">+ Nuevo Producto</button>
+    </div>
+
+    <!-- Tabla de productos -->
+    <div class="table-container">
+        <table id="productosTable">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Abreviación</th>
+                <th>Piezas por Caja</th>
+                <th>Color Display</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody id="productosTableBody">
+            <tr>
+                <td colspan="8" class="text-center">Cargando productos...</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Mensaje cuando no hay productos -->
+    <div id="emptyState" class="empty-state hidden">
+        <p>No hay productos registrados</p>
+        <button class="btn-primary" id="btnNuevoProductoEmpty">+ Crear Primer Producto</button>
+    </div>
+</div>
+
+<!-- Modal de Formulario -->
+<div id="modalProducto" class="modal hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modalTitle">Nuevo Producto</h2>
+            <button class="btn-close" id="btnCerrarModal">&times;</button>
+        </div>
+
+        <form id="formularioProducto" class="form-producto">
+            <input type="hidden" id="productId">
+
+            <div class="form-group">
+                <label for="codigo">Código *</label>
+                <input type="text" id="codigo" name="codigo" placeholder="Ej: PROD001" required>
+                <span class="error-message" id="errorCodigo"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="nombre">Nombre *</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Ej: Producto A" required>
+                <span class="error-message" id="errorNombre"></span>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="abreviacion">Abreviación</label>
+                    <input type="text" id="abreviacion" name="abreviacion" placeholder="Ej: PA" maxlength="10">
+                </div>
+
+                <div class="form-group">
+                    <label for="piezasPorCaja">Piezas por Caja *</label>
+                    <input type="number" id="piezasPorCaja" name="piezasPorCaja" min="0" required>
+                    <span class="error-message" id="errorPiezas"></span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="colorDisplay">Color Display</label>
+                    <input type="color" id="colorDisplay" name="colorDisplay">
+                </div>
+
+                <div class="form-group">
+                    <label for="activo">Estado</label>
+                    <select id="activo" name="activo">
+                        <option value="true">Activo</option>
+                        <option value="false">Inactivo</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn-secondary" id="btnCancelar">Cancelar</button>
+                <button type="submit" class="btn-primary">Guardar Producto</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal de confirmación para eliminar -->
+<div id="modalConfirmar" class="modal hidden">
+    <div class="modal-content modal-confirm">
+        <h2>Confirmar eliminación</h2>
+        <p>¿Está seguro de que desea eliminar este producto?</p>
+        <div class="modal-actions">
+            <button class="btn-secondary" id="btnCancelarConfirm">Cancelar</button>
+            <button class="btn-danger" id="btnConfirmarDelete">Eliminar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Notificaciones -->
+<div id="notification" class="notification hidden"></div>
+
+<script th:src="@{/static/js/productos.js}"></script>
+</body>
+</html>
