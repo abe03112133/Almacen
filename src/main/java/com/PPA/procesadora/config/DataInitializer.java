@@ -40,12 +40,16 @@ public class DataInitializer implements CommandLineRunner {
                 log.info("Base de datos vacía detectada. Inicializando datos...");
 
                 // Ejecutar el primer script (inserts básicos y procedimiento)
-                executeScript("db/01-inserts-basicos.sql");
-                log.info("✓ Datos básicos insertados");
+                executeScript("db/inserts-basicos.sql");
+                log.info(" Datos básicos insertados");
+
+                // Ejecutar el procredimiento
+                executeScript("db/procedimientos.sql");
+                log.info(" Procedimiento creados");
 
                 // Ejecutar el segundo script (creación de racks y espacios)
-                executeScript("db/02-crear-racks.sql");
-                log.info("✓ Racks y espacios creados");
+                executeScript("db/crear-racks.sql");
+                log.info(" Racks y espacios creados");
 
                 log.info("Inicialización de base de datos completada exitosamente");
             } else {

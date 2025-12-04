@@ -2,8 +2,6 @@
 -- -CREACION DE TODOS LOS RACKS Y ESPACIOS
 -- ====================================================================
 
-USE almacen_db;
-
 -- --- ALMACEN 1 con prefijo 30 (DINAMICOS)
 SET @alm = 1;
 CALL crear_rack_y_espacios(@alm, 1, '30', 'DINAMICO', 0, 0);
