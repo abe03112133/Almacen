@@ -9,22 +9,20 @@ Sistema web de gestión integral de almacén de productos congelados desarrollad
 
 ## Tabla de Contenidos
 
-- [Descripción del Proyecto](#-Descripción-del-proyecto)
-- [Características Principales](#-características-principales)
-- [Tecnologías Utilizadas](#-tecnologías-utilizadas)
-- [Requisitos Previos](#-requisitos-previos)
-- [Instalación](#-instalación)
-- [Configuración](#-configuración)
-- [Uso del Sistema](#-uso-del-sistema)
-- [Estructura del Proyecto](#-estructura-del-proyecto)
-- [Roles de Usuario](#-roles-de-usuario)
-- [Funcionalidades por Rol](#-funcionalidades-por-rol)
-- [API Endpoints](#-api-endpoints)
-- [Testing](#-testing)
-- [Documentación](#-documentación)
-- [Contribuciones](#-contribuciones)
-- [Licencia](#-licencia)
-- [Contacto](#-contacto)
+- [Descripción del Proyecto](descripción-del-proyecto)
+- [Características Principales](características-principales)
+- [Tecnologías Utilizadas](tecnologías-utilizadas)
+- [Requisitos Previos](requisitos-previos)
+- [Instalación](instalación)
+- [Configuración](configuración)
+- [Uso del Sistema](uso-del-sistema)
+- [Estructura del Proyecto](estructura-del-proyecto)
+- [Roles de Usuario](roles-de-usuario)
+- [Funcionalidades por Rol](funcionalidades-por-rol)
+- [API Endpoints](api-endpoints)
+- [Documentación](documentación)
+- [Contribuciones](contribuciones)
+- [Licencia](licencia)
 
 ## Descripción del Proyecto
 
