@@ -157,26 +157,39 @@ mysql -u root -p ******
 # Crear base de datos
 CREATE DATABASE almacen_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-# Crear usuario (opcional pero recomendado)
+# Crear usuario
 CREATE USER 'ppa'@'localhost' IDENTIFIED BY 'password_seguro';
+
 GRANT ALL PRIVILEGES ON almacen_db.* TO 'ppa'@'localhost';
+
 FLUSH PRIVILEGES;
+
 EXIT;
+
 
 ### 3. Configurar Variables de Entorno
 
 Crea un archivo `application.properties` en `src/main/resources/`:
+
 # Configuración de Base de Datos
 spring.datasource.url=jdbc:mysql://localhost:3310/almacen_db?useSSL=false&serverTimezone=UTC
-spring.datasource.username=almacen_user
+
+spring.datasource.username=ppa
+
 spring.datasource.password=password_seguro
+
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
 
 # Configuración de JPA/Hibernate
 spring.jpa.hibernate.ddl-auto=update
+
 spring.jpa.show-sql=true
+
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+
 spring.jpa.properties.hibernate.format_sql=true
+
 
 # Configuración del Servidor
 server.port=8089
@@ -238,13 +251,11 @@ impresora.red.puerto=9100
 
 #### 1️ **Creación de Tarimas** (Montacarguista/Supervisor Producción)
 
-Login → Empaque →
+Login → Se habre automaticamente pantalla de Empaque →
 
 ├─ Seleccionar Estado de Producto
 
 ├─ escanear etiqueta de cajas
-
-├─ Cantidad de cajas (default: 25)
 
 ├─ Fecha de producción (automatico)
 
@@ -422,44 +433,63 @@ procesadora/
 
 ### Autenticación
 POST   /login              # Login de usuario
+
 POST   /logout             # Logout de usuario
+
 
 ### Tarimas
 GET    /tarimas            # Listar tarimas
+
 POST   /tarimas            # Crear tarima
+
 GET    /tarimas/{id}       # Ver detalle
+
 PUT    /tarimas/{id}       # Actualizar tarima
+
 DELETE /tarimas/{id}       # Eliminar (soft delete)
+
 GET    /tarimas/{id}/etiqueta  # Generar PDF de etiqueta
+
 GET    /tarimas/buscar     # Búsqueda avanzada
 
-### Inventario
-GET    /inventario         # Consultar inventario actual
-GET    /inventario/export  # Exportar a Excel/PDF
-GET    /inventario/kardex  # Ver kardex de movimientos
 
 ### Pick Lists
 GET    /picklists          # Listar pick lists
+
 POST   /picklists          # Crear pick list
+
 GET    /picklists/{id}     # Ver detalle
+
 PUT    /picklists/{id}/ejecutar  # Marcar en ejecución
+
 PUT    /picklists/{id}/completar # Completar pick list
+
 
 ### Ubicaciones
 GET    /ubicaciones        # Listar ubicaciones
+
 POST   /ubicaciones        # Crear ubicación
+
 GET    /ubicaciones/mapa   # Ver mapa del almacén
+
 
 ### Productos
 GET    /productos          # Listar productos
+
 POST   /productos          # Crear producto
+
 PUT    /productos/{id}     # Actualizar producto
+
 
 ### Reportes
 GET    /reportes/inventario      # Reporte de inventario
+
 GET    /reportes/movimientos     # Reporte de movimientos
+
 GET    /reportes/producto/{id}   # Reporte por producto
+
 GET    /reportes/cuarentenas     # Reporte de cuarentenas
+
 
 ## Documentacion
 
