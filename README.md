@@ -9,22 +9,22 @@ Sistema web de gestión integral de almacén de productos congelados desarrollad
 
 ## Tabla de Contenidos
 
-- [Descripción del Proyecto](descripción-del-proyecto)
-- [Características Principales](características-principales)
-- [Tecnologías Utilizadas](tecnologías-utilizadas)
-- [Requisitos Previos](requisitos-previos)
-- [Instalación](instalación)
-- [Configuración](configuración)
-- [Uso del Sistema](uso-del-sistema)
-- [Estructura del Proyecto](estructura-del-proyecto)
-- [Roles de Usuario](roles-de-usuario)
-- [Funcionalidades por Rol](funcionalidades-por-rol)
-- [API Endpoints](api-endpoints)
-- [Documentación](documentación)
-- [Contribuciones](contribuciones)
-- [Licencia](licencia)
+- [Descripcion del Proyecto](#descripcion-del-proyecto)
+- [Caracteristicas Principales](#caracteristicas-principales)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Requisitos Previos](#requisitos-previos)
+- [Instalacion](#instalacion)
+- [Configuracion](#configuracion)
+- [Uso del Sistema](#uso-del-sistema)
+- [Estructura del Proyecto](#estructura-del-proyecto)
+- [Roles de Usuario](#roles-de-usuario)
+- [Funcionalidades por Rol](#funcionalidades-por-rol)
+- [API Endpoints](#api-endpoints)
+- [Documentacion](#documentacion)
+- [Contribuciones](#contribuciones)
+- [Licencia](#licencia)
 
-## Descripción del Proyecto
+## Descripcion del Proyecto
 
 ### Contexto
 **Procesadora** es una empresa dedicada a la producción y distribución de productos alimenticios congelados con 60 colaboradores. Actualmente, el almacén opera con procesos manuales basados en Excel, generando:
@@ -36,7 +36,7 @@ Sistema web de gestión integral de almacén de productos congelados desarrollad
 - ❌ Falta de control sobre productos en cuarentena o dañados
 - ❌ Mermas por tarimas caducadas no surtidas a tiempo
 
-### Solución
+### Solucion
 Sistema web que automatiza el ciclo completo de vida de las tarimas, desde su creación hasta su salida del almacén, garantizando:
 
 - ✅ Trazabilidad completa de cada tarima
@@ -47,7 +47,7 @@ Sistema web que automatiza el ciclo completo de vida de las tarimas, desde su cr
 - ✅ Gestión eficiente de excepciones (cuarentenas, daños, bloqueos)
 
 
-## Características Principales
+## Caracteristicas Principales
 
 ### Gestión de Tarimas
 - Creación automatizada con folio único (formato: TAR-YYYYMMDD-XXXX)
@@ -144,7 +144,7 @@ Antes de instalar el sistema, asegúrate de tener:
 - Impresoras de red
 - Tablets para operadores (Android/iOS con navegador moderno)
 
-## Instalación
+## Instalacion
 
 ### 1. Clonar el Repositorio
 git clone https://github.com/abe03112133/Almacen.git
@@ -209,9 +209,9 @@ java -jar target/procesadora-1.0.0.jar
 
 ### 5. Acceder al Sistema
 
-Abre tu navegador en: **http://localhost:8080/dashboard**
+Abre tu navegador en: **http://localhost:8089/dashboard**
 
-## ⚙️ Configuración
+## Configuracion
 
 ### Usuarios por Defecto
 
@@ -221,11 +221,11 @@ Después de la primera ejecución, el sistema crea automáticamente los siguient
 |---------|------------|-----|
 | `admin` | `admin123` | ADMIN |
 
-⚠️ **IMPORTANTE:** Cambia estas contraseñas en producción.
+⚠️ **IMPORTANTE:** Cambia estas contraseñas en produccion.
 
 ### Configuración de Impresora de Red
 
-En `application.properties`:
+En application.properties:
 properties
 # Configuración de Impresora
 impresora.red.ip=192.168.1.100
@@ -297,7 +297,7 @@ Login → Inventario
 
 └─ Exportar
 
-##  Estructura del Proyecto
+## Estructura del Proyecto
 procesadora/
 
 ├── src/
@@ -353,7 +353,7 @@ procesadora/
 └── LICENSE
 
 
-## 👥 Roles de Usuario
+## Roles de Usuario
 
 ### 1. Administrador (ADMIN)
 **Acceso completo al sistema**
@@ -400,7 +400,7 @@ procesadora/
 - Consulta de inventario
 - Análisis de tendencias
 
-##  Funcionalidades por Rol
+## Funcionalidades por Rol
 
 | Funcionalidad | Admin | Montac. | Surtidor | Sup.Mat | Sup.Prod | Gerencia |
 |--------------|:-----:|:-------:|:--------:|:-------:|:--------:|:--------:|
@@ -418,7 +418,7 @@ procesadora/
 | Generar reportes | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ |
 | Ver logs/auditoría | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
-##  API Endpoints
+## API Endpoints
 
 ### Autenticación
 POST   /login              # Login de usuario
@@ -461,7 +461,7 @@ GET    /reportes/movimientos     # Reporte de movimientos
 GET    /reportes/producto/{id}   # Reporte por producto
 GET    /reportes/cuarentenas     # Reporte de cuarentenas
 
-## Documentación
+## Documentacion
 
 ### Documentación Disponible
 
@@ -495,7 +495,7 @@ Este es un proyecto académico desarrollado para **Tecmilenio: Taller de product
 4. Push a la rama (`git push origin feature/AmazingFeature`)
 5. Abre un Pull Request
 
-### Código de Conducta
+### Codigo de Conducta
 
 - Usa nombres descriptivos para variables y funciones
 - Documenta funciones complejas
@@ -536,7 +536,7 @@ SOFTWARE
 
 ---
 
-## Estadísticas del Proyecto
+## Estadisticas del Proyecto
 
 - **Líneas de código:** ~15,000
 - **Tiempo de desarrollo:** 8 semanas (2 meses)
