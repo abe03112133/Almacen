@@ -74,7 +74,7 @@ public class PDFGeneratorService {
             doc.add(cajas);
 
             // Lote (fecha de producción)
-            String lote = "LOTE:                " + produccion.getFecha().format(DateTimeFormatter.ofPattern("dd/MMMM/yyyy")).toUpperCase();
+            String lote = "LOTE:                " + produccion.getFecha().format(DateTimeFormatter.ofPattern("MMM dd yyyy")).toUpperCase();
             Paragraph lotePara = new Paragraph(lote)
                     .setFont(smallFont)
                     .setFontSize(26)
@@ -84,7 +84,7 @@ public class PDFGeneratorService {
 
             // Caducidad (6 meses después)
             LocalDateTime caducidad = produccion.getFecha().plusMonths(6);
-            String fechaCaducidad = caducidad.format(DateTimeFormatter.ofPattern("dd/MMMM/yyyy")).toUpperCase();
+            String fechaCaducidad = caducidad.format(DateTimeFormatter.ofPattern("MMM dd yyyy")).toUpperCase();
             Paragraph caducidadPara = new Paragraph("CADUCIDAD:          " + fechaCaducidad)
                     .setFont(smallFont)
                     .setFontSize(26)

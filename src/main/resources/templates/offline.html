@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sin Conexión - PPA Procesadora</title>
+    <link rel="stylesheet" href="/static/css/global.css">
+    <style>
+        .offline-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--color-lighter);
+            padding: 20px;
+        }
+
+        .offline-box {
+            text-align: center;
+            background-color: white;
+            padding: 60px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .offline-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .offline-box h1 {
+            font-size: 32px;
+            color: var(--color-text);
+            margin-bottom: 12px;
+        }
+
+        .offline-box p {
+            font-size: 16px;
+            color: var(--color-text-muted);
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .offline-status {
+            padding: 16px;
+            background-color: var(--color-error-bg);
+            border: 1px solid var(--color-error-border);
+            border-radius: 6px;
+            margin-bottom: 32px;
+            color: var(--color-error);
+            font-weight: 600;
+        }
+
+        .offline-button {
+            display: inline-block;
+            background-color: var(--color-primary);
+            color: white;
+            padding: 12px 32px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .offline-button:hover {
+            background-color: var(--color-secondary);
+            color: var(--color-primary);
+        }
+
+        .offline-tips {
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 1px solid var(--color-border);
+            text-align: left;
+        }
+
+        .offline-tips h3 {
+            font-size: 16px;
+            color: var(--color-text);
+            margin-bottom: 12px;
+        }
+
+        .offline-tips ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .offline-tips li {
+            padding: 8px 0;
+            color: var(--color-text-muted);
+            font-size: 14px;
+        }
+
+        .offline-tips li:before {
+            content: "✓ ";
+            color: var(--color-success);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .offline-box {
+                padding: 40px 30px;
+            }
+
+            .offline-icon {
+                font-size: 60px;
+            }
+
+            .offline-box h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="offline-container">
+    <div class="offline-box">
+        <div class="offline-icon">📵</div>
+        <h1>Sin Conexión a Internet</h1>
+        <p>No hay conexión disponible en este momento.</p>
+
+        <div class="offline-status">
+            Esperando reconexión...
+        </div>
+
+        <button class="offline-button" onclick="location.reload()">
+            🔄 Reintentar
+        </button>
+
+        <div class="offline-tips">
+            <h3>Mientras esperas:</h3>
+            <ul>
+                <li>La app está disponible sin conexión</li>
+                <li>Puedes ver datos cacheados</li>
+                <li>Los cambios se sincronizarán cuando vuelva la conexión</li>
+                <li>Verifica tu conexión WiFi o datos móviles</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Verificar conectividad
+    window.addEventListener('online', function() {
+        console.log('✅ Conexión restaurada');
+        location.reload();
+    });
+
+    window.addEventListener('offline', function() {
+        console.log('❌ Se perdió la conexión');
+    });
+
+    // Mostrar estado de conectividad
+    if (navigator.onLine) {
+        location.reload();
+    }
+</script>
+</body>
+</html>
