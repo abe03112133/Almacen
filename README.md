@@ -517,13 +517,29 @@ GET    /reportes/cuarentenas     # Reporte de cuarentenas
 
 Este es un proyecto académico desarrollado para **Tecmilenio: Taller de productividad basada en Herramientas Tecnologicas**. 
 
-### Cómo Contribuir
+## Contribución
 
-1. Fork el repositorio
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
+### Cómo Contribuir
+**Haz Fork del repositorio**
+**Crea una rama nueva**\
+  
+  git branch nueva-funcionalidad
+  
+  git checkout -b nueva-funcionalidad
+   
+**Haz tus cambios y guárdalos**
+   git commit -m "Descripción de los cambios"
+   
+**Sube tu rama**
+
+   git push origin nueva-funcionalidad
+   
+**Abre un Pull Request en GitHub**
+
+### Reglas Básicas
+- Usa nombres claros en español
+- Prueba tu código antes de subir
+- Escribe mensajes de commit descriptivos
 
 ### Codigo de Conducta
 
